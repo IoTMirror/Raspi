@@ -9,7 +9,7 @@
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-    <Grid Background="Coral" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <Grid x:Name="myGrid" Background="Coral" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
     </Grid>
 </UserControl>
