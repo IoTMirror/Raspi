@@ -20,30 +20,35 @@ namespace IoT_Mirror
     public sealed partial class MainPage : Page
     {
         private WidgetManager _widgetManager = null;
-        private Uri serviceUri = new Uri("http://jacek.com");
+        private SessionManager _sessionManager = null;
+        private SpeechManager _speechManager = null;
+        private string serviceUrl = Credentials.ServiceUrl;
 
         public MainPage()
         {
             InitializeComponent();
             _widgetManager = new WidgetManager();
-            _widgetManager.CreateWidget(grid, 0, 0, 0, 1, 1);
-            _widgetManager.CreateWidget(grid, 0, 3, 3, 2, 2);
+            _widgetManager.Init(grid);
+
+            _sessionManager = new SessionManager();
+            _sessionManager.Init(serviceUrl);
+            _sessionManager.Create_Widgets_After_Login += _widgetManager.CreateWidgets;
+
+            _speechManager = new SpeechManager();
+            _speechManager.Init();
+            _speechManager.Login_Start += _sessionManager.Login;
+            _speechManager.Logout_Start += _sessionManager.Logout;
         }
 
-        private async void SendPicture()
-        {
-            var cameraManager = new CameraManager();
-            var photoStream = await cameraManager.TakePicture();
-            var photoString = new ImageModel()
-            {
-                Image = await cameraManager.ConvertToByte64(photoStream)
-            };
-            (new HttpManager()).SendMessage(serviceUri, photoString);
-        }
-
-        private void button_Click(object sender, RoutedEventArgs e)
-        {
-            SendPicture();
-        }
+        //private async void SendPicture()
+        //{
+        //    var cameraManager = new CameraManager();
+        //    var photoStream = await cameraManager.TakePicture();
+        //    var photoString = new ImageModel()
+        //    {
+        //        Image = await cameraManager.ConvertToByte64(photoStream)
+        //    };
+        //    //(new HttpManager()).PushPhoto(serviceUri, photoString);
+        //}
     }
 }
