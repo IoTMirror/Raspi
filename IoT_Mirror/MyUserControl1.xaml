@@ -9,7 +9,7 @@
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-    <Grid x:Name="myGrid" Background="Coral" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-
+    <Grid x:Name="myGrid" Background="Coral" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
+        <TextBlock x:Name="textBlock" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Text="TextBlock" FontSize="10"/>
     </Grid>
 </UserControl>

@@ -25,10 +25,11 @@ namespace IoT_Mirror
                 new SpeechRecognitionListConstraint(new List<string>() { keyWord + "hello", keyWord + "log in", keyWord + "login" }, "login"));
 
             speechRecognizer.Constraints.Add(
-                new SpeechRecognitionListConstraint(new List<string>() { keyWord + "logout", keyWord + "log out", keyWord + "quit" }, "logout"));
+                new SpeechRecognitionListConstraint(new List<string>() { keyWord + "logout", keyWord + "log out", keyWord + "quit", keyWord + "exit" }, "logout"));
 
             var compilationResult = await speechRecognizer.CompileConstraintsAsync();
 
+            //speechRecognizer.ContinuousRecognitionSession.AutoStopSilenceTimeout = TimeSpan.MaxValue;
             speechRecognizer.ContinuousRecognitionSession.ResultGenerated +=
                 ContinuousRecognitionSession_ResultGenerated;
 
@@ -37,6 +38,9 @@ namespace IoT_Mirror
 
         private void ContinuousRecognitionSession_ResultGenerated(SpeechContinuousRecognitionSession sender, SpeechContinuousRecognitionResultGeneratedEventArgs args)
         {
+            if(args.Result.Text == "")
+                return;
+
             if (args.Result.Constraint.Tag == "login")
                 Login_Start();
             else if (args.Result.Constraint.Tag == "logout")

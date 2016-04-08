@@ -17,12 +17,17 @@ using Windows.UI.Xaml.Navigation;
 
 namespace IoT_Mirror
 {
-    public sealed partial class MyUserControl1 : UserControl
+    public sealed partial class TwitterWidgetSmall : UserControl
     {
-        public MyUserControl1(string txt)
+        public TwitterWidgetSmall()
         {
             this.InitializeComponent();
-            textBlock.Text = txt;
+            listView.ItemsSource = new List<string>()
+            {
+                "@Jakub Marszałkowski: Poznan Unity User Group meeting!",
+                "@finefin: hey @Sosowski http://finefin.com/images/sos0005.gif ...",
+                "@Chroscielski: ls | grep .exe",
+            };
         }
     }
 }

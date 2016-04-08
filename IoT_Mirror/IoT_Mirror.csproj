@@ -112,6 +112,9 @@
     <Compile Include="Session.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="SpeechManager.cs" />
+    <Compile Include="TwitterWidgetSmall.xaml.cs">
+      <DependentUpon>TwitterWidgetSmall.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vector.cs" />
     <Compile Include="WidgetManager.cs" />
     <Compile Include="WidgetConfig.cs" />
@@ -142,6 +145,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MyUserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TwitterWidgetSmall.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
