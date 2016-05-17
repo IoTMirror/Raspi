@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="IoT_Mirror.GmailWidget" BaseTypeListCollapsed="true">
+    <Position X="9" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAgAAAAABgAAAAAAAAAAAAAAAAAAAAAAACAAAAQAA=</HashCode>
+      <FileName>Widgets\GmailWidget.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="IoT_Mirror.WidgetConfig">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAIAAAEAAAAAACAAAA=</HashCode>
+      <FileName>Widgets\WidgetConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.WidgetManager">
+    <Position X="11.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAgAAAAIAAAAAAAAAAAAAAAAACAAQAAAA=</HashCode>
+      <FileName>Widgets\WidgetManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.SessionManager">
+    <Position X="13.75" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="IoT_Mirror.SessionManager.CreateWidgets" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Session\SessionManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAIAAAAAAAAhAEASAABAAAA=</HashCode>
+      <FileName>Session\SessionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.CameraManager">
+    <Position X="13.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAIAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hardware\CameraManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.SpeechManager">
+    <Position X="15.25" Y="3.75" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="IoT_Mirror.SpeechManager.Login" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hardware\SpeechManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="IoT_Mirror.SpeechManager.Logout" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Hardware\SpeechManager.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAgAAAAGAAAAAAA=</HashCode>
+      <FileName>Hardware\SpeechManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.HttpManager">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAQAAAAAAAACAAAAgAAAAAAAAAQCACQAAAA=</HashCode>
+      <FileName>Communication\HttpManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.Credentials">
+    <Position X="15.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Communication\Credentials.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IoT_Mirror.MainPage">
+    <Position X="10" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQBAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAJAAA=</HashCode>
+      <FileName>MainPage.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

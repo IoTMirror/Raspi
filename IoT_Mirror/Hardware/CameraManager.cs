@@ -24,6 +24,15 @@ namespace IoT_Mirror
             return stringData;
         }
 
+        public async Task<byte[]> ConvertToByteArray(InMemoryRandomAccessStream stream)
+        {
+            var reader = new DataReader(stream.GetInputStreamAt(0));
+            var bytes = new byte[stream.Size];
+            await reader.LoadAsync((uint)stream.Size);
+            reader.ReadBytes(bytes);
+            return bytes;
+        }
+
         public async Task<InMemoryRandomAccessStream> TakePicture()
         {
             var mediaCapture = new MediaCapture();

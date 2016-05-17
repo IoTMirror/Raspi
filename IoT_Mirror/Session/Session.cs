@@ -10,7 +10,6 @@ namespace IoT_Mirror
     {
         [Newtonsoft.Json.JsonIgnore]
         public bool IsLoggedIn { get; set; }
-        public string Token { get; set; }
         public WidgetConfig[] Widgets { get; set; }
     }
 }

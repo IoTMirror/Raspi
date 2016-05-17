@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="IoT_Mirror.TwitterWidgetSmall"
+    x:Class="IoT_Mirror.GmailWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:IoT_Mirror"
@@ -9,11 +9,11 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="myGrid" Background="Aqua" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
+    <Grid x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
         <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="10" Text="{Binding}"></TextBlock>
+                    <TextBlock FontSize="12" Text="{Binding subject}"></TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

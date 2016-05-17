@@ -12,10 +12,13 @@ namespace IoT_Mirror
 {
     class WidgetManager
     {
+        private HttpManager _httpManager = null;
+
         private Grid _grid = null;
-        public void Init(Grid grid)
+        public void Init(Grid grid, HttpManager httpManager)
         {
             _grid = grid;
+            _httpManager = httpManager;
         }
 
         public async void CreateWidgets(WidgetConfig[] widgets)
@@ -34,7 +37,28 @@ namespace IoT_Mirror
         {
             if (widget.WidgetName == "Twitter")
             {
-                var control = new TwitterWidgetSmall();
+                var control = new TwitterWidget();
+                control.Init(_httpManager);
+                Grid.SetRow(control, widget.WidgetPosition.Y);
+                Grid.SetColumn(control, widget.WidgetPosition.X);
+                Grid.SetColumnSpan(control, widget.WidgetSize.X);
+                Grid.SetRowSpan(control, widget.WidgetSize.Y);
+                _grid.Children.Add(control);
+            }
+            else if(widget.WidgetName == "Gmail")
+            {
+                var control = new GmailWidget();
+                control.Init(_httpManager);
+                Grid.SetRow(control, widget.WidgetPosition.Y);
+                Grid.SetColumn(control, widget.WidgetPosition.X);
+                Grid.SetColumnSpan(control, widget.WidgetSize.X);
+                Grid.SetRowSpan(control, widget.WidgetSize.Y);
+                _grid.Children.Add(control);
+            }
+            else if (widget.WidgetName == "Tasks")
+            {
+                var control = new TasksWidget();
+                control.Init(_httpManager);
                 Grid.SetRow(control, widget.WidgetPosition.Y);
                 Grid.SetColumn(control, widget.WidgetPosition.X);
                 Grid.SetColumnSpan(control, widget.WidgetSize.X);

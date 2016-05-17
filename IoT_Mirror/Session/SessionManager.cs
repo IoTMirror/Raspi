@@ -14,14 +14,15 @@ namespace IoT_Mirror
     {
         private HttpManager _httpManager = null;
         private Session _session = null;
+        private CameraManager _cameraManager = null;
 
         public delegate void CreateWidgets(WidgetConfig[] widgets);
         public CreateWidgets Create_Widgets_After_Login;
 
-        public void Init(string serviceUrl)
+        public void Init(HttpManager httpManager)
         {
-            _httpManager = new HttpManager();
-            _httpManager.Init(serviceUrl);
+            _httpManager = httpManager;
+            _cameraManager = new CameraManager();
         }
 
         public async void Login()
@@ -32,6 +33,7 @@ namespace IoT_Mirror
             var loginToken = await _httpManager.StartSession();
             var sessionString = await _httpManager.ConfirmAuthentication(loginToken);
             _session = JsonConvert.DeserializeObject<Session>(sessionString);
+            Credentials.Token = JsonConvert.DeserializeAnonymousType(sessionString, new { Token = "" }).Token;
             Create_Widgets_After_Login(_session.Widgets);
 
             _session.IsLoggedIn = true;
@@ -45,6 +47,15 @@ namespace IoT_Mirror
             CoreApplication.Exit();
 
             _session.IsLoggedIn = false;
+        }
+
+        private async void SendPicture()
+        {
+            //TODO
+            var cameraManager = new CameraManager();
+            var photoStream = await cameraManager.TakePicture();
+            //var photoString = await cameraManager.ConvertToByteArray(photoStream);
+            //_httpManager.PushPhoto(serviceUri, photoString);
         }
     }
 }

@@ -20,18 +20,22 @@ namespace IoT_Mirror
     public sealed partial class MainPage : Page
     {
         private WidgetManager _widgetManager = null;
+        private HttpManager _httpManager = null;
         private SessionManager _sessionManager = null;
         private SpeechManager _speechManager = null;
-        private string serviceUrl = Credentials.ServiceUrl;
 
         public MainPage()
         {
             InitializeComponent();
+
+            _httpManager = new HttpManager();
+            _httpManager.Init(Credentials.ServiceUrl);
+
             _widgetManager = new WidgetManager();
-            _widgetManager.Init(grid);
+            _widgetManager.Init(grid, _httpManager);
 
             _sessionManager = new SessionManager();
-            _sessionManager.Init(serviceUrl);
+            _sessionManager.Init(_httpManager);
             _sessionManager.Create_Widgets_After_Login += _widgetManager.CreateWidgets;
 
             _speechManager = new SpeechManager();
@@ -40,15 +44,9 @@ namespace IoT_Mirror
             _speechManager.Logout_Start += _sessionManager.Logout;
         }
 
-        //private async void SendPicture()
-        //{
-        //    var cameraManager = new CameraManager();
-        //    var photoStream = await cameraManager.TakePicture();
-        //    var photoString = new ImageModel()
-        //    {
-        //        Image = await cameraManager.ConvertToByte64(photoStream)
-        //    };
-        //    //(new HttpManager()).PushPhoto(serviceUri, photoString);
-        //}
+        private void buttonTmp_Click(object sender, RoutedEventArgs e)
+        {
+            _sessionManager.Login();
+        }
     }
 }
