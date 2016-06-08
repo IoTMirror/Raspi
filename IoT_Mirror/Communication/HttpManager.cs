@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Windows.Storage.Streams;
-using System.IO;
 using System.Diagnostics;
+using Windows.Web.Http;
+using Windows.Graphics.Imaging;
 
 namespace IoT_Mirror
 {
@@ -22,48 +19,46 @@ namespace IoT_Mirror
             _httpClient = new HttpClient();
         }
 
-        public async void PushPhoto(InMemoryRandomAccessStream image)
+        public async Task<string> PushPhoto(string sessionId, InMemoryRandomAccessStream image)
         {
-            using (var httpClient = new HttpClient())
-            {
-                //TODO
-                //var api = new Uri("/test", UriKind.Relative);
-                //HttpMultipartFormDataContent form = new HttpMultipartFormDataContent();
-                //form.Add(new HttpStringContent(RequestBodyField.Text), "data");
-
-                //HttpResponseMessage response = await httpClient.PostAsync(resourceAddress, form).AsTask(cts.Token);
-
-
-                //var postParameters = new Dictionary<string, object>();
-                //postParameters.Add("imgProfile", image);
-
-                //var response = await httpClient.SendAsync(request);
-                //await response.Content.ReadAsStringAsync();
-            }
+            var api = new Uri("https://facerecog.azurewebsites.net/public/Recognizer/" + sessionId, UriKind.Absolute);
+            var form = new HttpMultipartFormDataContent();
+            form.Add(new HttpStreamContent(image.GetInputStreamAt(0)), "face", "face.jpg");
+            var response = await _httpClient.PutAsync(api, form);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStringAsync();
         }
 
         private async Task<string> SimplePost(string endpoint, string jsonData)
         {
             var api = new Uri(endpoint, UriKind.Relative);
-            var request = new HttpRequestMessage(HttpMethod.Post, new Uri(_serviceUrl, api));
-
-            request.Content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed POST: " + endpoint);
-            return await response.Content.ReadAsStringAsync();
+            var content = new HttpStringContent(jsonData, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            try
+            {
+                var response = await _httpClient.PostAsync(new Uri(_serviceUrl, api),
+                    new HttpStringContent(jsonData, UnicodeEncoding.Utf8, "application/json")).AsTask();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (TaskCanceledException)
+            {
+                Debug.WriteLine("Failed POST: " + endpoint);
+            }
+            return null;
         }
 
         private async Task<string> SimpleGet(string endpoint)
         {
             var api = new Uri(endpoint + "?token=" + Credentials.Token, UriKind.Relative);
-            var request = new HttpRequestMessage(HttpMethod.Get, new Uri(_serviceUrl, api));
-
-            var response = await _httpClient.SendAsync(request);
-            if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed GET: " + endpoint);
-            return await response.Content.ReadAsStringAsync();
+            try
+            {
+                var result = await _httpClient.GetStringAsync(new Uri(_serviceUrl, api));
+                return result;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Failed GET: " + endpoint);
+            }
+            return null;
         }
 
         public async Task<string> StartSession()

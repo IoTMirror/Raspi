@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -21,27 +22,71 @@ namespace IoT_Mirror
 {
     public sealed partial class ScrolledTextBlock : UserControl
     {
-        private int _intervalInSeconds = 1;
-        private Timer _timer = null;
+        private int _intervalInSeconds = 1000;
+        private ScrolledVM _model = new ScrolledVM();
+
         private string _fullText = "This is very long text, no time for lorem ipsum. Please make it scrollable later.";
-        private string _visibleText = null;
+
         public ScrolledTextBlock()
         {
             InitializeComponent();
-            _visibleText = _fullText;
-            Binding b = new Binding();
-            b.Mode = BindingMode.TwoWay;
-            b.Source = _visibleText;
-
-            textBlock.SetBinding(TextBlock.TextProperty, b);
-            _timer = new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
+            DataContext = _model;
+            _model.VisibleText = _fullText + " ";
+            _model.IntervalInSeconds = _intervalInSeconds;
         }
 
-        private void Callback(Object state)
+        public class ScrolledVM : INotifyPropertyChanged
         {
-            _visibleText = _visibleText.Substring(1);
-            Debug.WriteLine(_visibleText);
-            _timer.Change(_intervalInSeconds * 1000, Timeout.Infinite);
+            private int _intervalInSeconds;
+            public int IntervalInSeconds { get { return _intervalInSeconds; } set { _intervalInSeconds = value; CreateTimer(); } }
+            private DispatcherTimer _timer = null;
+            private string _visibleText = null;
+            private string _fullText = null;
+
+            public string VisibleText
+            {
+                get { return _visibleText; }
+                set
+                {
+                    _fullText = value;
+                    _visibleText = value;
+                    CreateTimer();
+                    NotifyPropertyChanged("VisibleText");
+                }
+            }
+
+            private void CreateTimer()
+            {
+                if (_timer != null)
+                {
+                    _timer.Stop();
+                    _timer = null;
+                }
+                _timer = new DispatcherTimer();
+                _timer.Interval = new TimeSpan(_intervalInSeconds * 1000);
+                _timer.Tick += Callback;
+                _timer.Start();
+            }
+
+            private void Callback(object sender, object e)
+            {
+                //if (string.IsNullOrEmpty(_visibleText))
+                //{
+                //    _timer.Stop();
+                //    _timer.Interval = new TimeSpan(_intervalInSeconds * 1000);
+                //    return;
+                //}
+                var move = _visibleText.First();
+                VisibleText += move;
+                VisibleText = _visibleText.Substring(1);
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+            protected void NotifyPropertyChanged(string info)
+            {
+                if (PropertyChanged != null)
+                    PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
         }
     }
 }

@@ -9,13 +9,16 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
-        <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <StackPanel x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
+        <ListView x:Name="listView" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+            <ListView.Background>
+                <ImageBrush ImageSource="/Assets/twitter.png" AlignmentY="Top" AlignmentX="Center" Stretch="Uniform" Opacity="0.2"></ImageBrush>
+            </ListView.Background>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="12" Text="{Binding text}"></TextBlock>
+                    <TextBlock FontSize="12" Text="{Binding}"></TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </Grid>
+    </StackPanel>
 </UserControl>

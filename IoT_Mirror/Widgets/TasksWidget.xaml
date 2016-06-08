@@ -11,9 +11,12 @@
 
     <Grid x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
         <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ListView.Background>
+                <ImageBrush ImageSource="/Assets/tasks.png" AlignmentY="Top" AlignmentX="Center" Stretch="Uniform" Opacity="0.2"></ImageBrush>
+            </ListView.Background>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock FontSize="12" Text="{Binding title}"></TextBlock>
+                    <TextBlock FontSize="12" Text="{Binding Title}"></TextBlock>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

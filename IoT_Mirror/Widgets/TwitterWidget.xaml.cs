@@ -25,7 +25,7 @@ namespace IoT_Mirror
     public sealed partial class TwitterWidget : UserControl
     {
         private HttpManager _httpManager = null;
-        private Timer _timer = null;
+        private DispatcherTimer _timer = null;
         private int _intervalInSeconds = 30;
         private List<Tweet> _cachedTweets = new List<Tweet>();
 
@@ -38,7 +38,10 @@ namespace IoT_Mirror
         {
             _httpManager = httpManager;
             Refresh();
-            _timer = new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
+            _timer = new DispatcherTimer();
+            _timer.Interval = new TimeSpan(0, 0, _intervalInSeconds);
+            _timer.Tick += Callback;
+            _timer.Start();
         }
 
         public async void Refresh()
@@ -50,11 +53,7 @@ namespace IoT_Mirror
                 if (_tweets.SequenceEqual(_cachedTweets))
                     return;
                 _cachedTweets = _tweets;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () =>
-                    {
-                        listView.ItemsSource = _tweets;
-                    });
+                listView.ItemsSource = _tweets;
             }
             catch (Exception)
             {
@@ -62,10 +61,9 @@ namespace IoT_Mirror
             }
         }
 
-        private void Callback(Object state)
+        private void Callback(object sender, object e)
         {
             Refresh();
-            _timer.Change(_intervalInSeconds * 1000, Timeout.Infinite);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace IoT_Mirror
     public sealed partial class TasksWidget : UserControl
     {
         private HttpManager _httpManager = null;
-        private Timer _timer = null;
+        private DispatcherTimer _timer = null;
         private int _intervalInSeconds = 60;
 
         public TasksWidget()
@@ -37,7 +37,11 @@ namespace IoT_Mirror
         {
             _httpManager = httpManager;
             Refresh();
-            _timer = new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
+            _timer = new DispatcherTimer();
+            _timer.Interval = new TimeSpan(0, 0, _intervalInSeconds);
+            _timer.Tick += Callback;
+            _timer.Start();
+                //new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
         }
 
         public async void Refresh()
@@ -48,11 +52,7 @@ namespace IoT_Mirror
                 var tasksString = await _httpManager.GetTasks();
                 Debug.WriteLine(tasksString);
                 var _tasks = JsonConvert.DeserializeObject<Tasks>(tasksString);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    listView.ItemsSource = _tasks.rest;
-                });
+                listView.ItemsSource = _tasks.rest;
             }
             catch (Exception)
             {
@@ -60,10 +60,9 @@ namespace IoT_Mirror
             }
         }
 
-        private void Callback(Object state)
+        private void Callback(object sender, object e)
         {
             Refresh();
-            _timer.Change(_intervalInSeconds * 1000, Timeout.Infinite);
         }
     }
 }

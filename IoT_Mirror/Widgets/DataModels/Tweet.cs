@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +9,36 @@ namespace IoT_Mirror.Widgets.DataModels
 {
     class Tweet : IEquatable<Tweet>
     {
-        public class User
+        public class UserModel
         {
-            public string screen_name { get; set; }
+            [JsonProperty("screen_name")]
+            public string Name { get; set; }
         }
-        public User user { get; set; }
-        public string created_at { get; set; }
-        public string text { get; set; }
+
+        [JsonProperty("user")]
+        public UserModel User { get; set; }
+
+        [JsonProperty("created_at")]
+        public string CreationDate { get; set; }
+
+        [JsonProperty("text")]
+        public string Text { get; set; }
 
         public bool Equals(Tweet other)
         {
-            return text == other.text;
+            return Text == other.Text;
         }
 
         public override int GetHashCode()
         {
-            int first = text == null ? 0 : text.GetHashCode();
-            int second = user.screen_name.GetHashCode();
+            int first = Text == null ? 0 : Text.GetHashCode();
+            int second = User.Name.GetHashCode();
             return first ^ second;
+        }
+
+        public override string ToString()
+        {
+            return "@" + User.Name + ": " + Text;
         }
     }
 }

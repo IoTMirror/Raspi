@@ -9,6 +9,6 @@
     d:DesignHeight="20.064" Width="246.178">
 
     <Grid>
-        <TextBlock x:Name="textBlock" TextTrimming="CharacterEllipsis" FontSize="12" Text="{Binding asd, Mode=TwoWay}"></TextBlock>
+        <TextBlock x:Name="textBlock" TextTrimming="CharacterEllipsis" FontSize="12" Text="{Binding VisibleText}"></TextBlock>
     </Grid>
 </UserControl>

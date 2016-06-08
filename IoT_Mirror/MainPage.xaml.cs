@@ -35,7 +35,7 @@ namespace IoT_Mirror
             _widgetManager.Init(grid, _httpManager);
 
             _sessionManager = new SessionManager();
-            _sessionManager.Init(_httpManager);
+            _sessionManager.Init(_httpManager, progressRing, sayHello);
             _sessionManager.Create_Widgets_After_Login += _widgetManager.CreateWidgets;
 
             _speechManager = new SpeechManager();

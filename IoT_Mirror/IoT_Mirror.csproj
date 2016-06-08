@@ -105,7 +105,7 @@
     <Compile Include="ScrolledTextBlock.xaml.cs">
       <DependentUpon>ScrolledTextBlock.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\DataModels\EmailMessageInfo.cs" />
+    <Compile Include="Widgets\DataModels\Email.cs" />
     <Compile Include="Widgets\DataModels\Task.cs" />
     <Compile Include="Widgets\DataModels\Tasks.cs" />
     <Compile Include="Widgets\TasksWidget.xaml.cs">
@@ -139,6 +139,9 @@
     <None Include="IoT_Mirror_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\gmail.png" />
+    <Content Include="Assets\tasks.png" />
+    <Content Include="Assets\twitter.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

@@ -25,9 +25,9 @@ namespace IoT_Mirror
     public sealed partial class GmailWidget : UserControl
     {
         private HttpManager _httpManager = null;
-        private Timer _timer = null;
+        private DispatcherTimer _timer = null;
         private int _intervalInSeconds = 40;
-        private List<EmailMessageInfo> _cachedEmails = new List<EmailMessageInfo>();
+        private List<Email> _cachedEmails = new List<Email>();
 
         public GmailWidget()
         {
@@ -38,7 +38,9 @@ namespace IoT_Mirror
         {
             _httpManager = httpManager;
             Refresh();
-            _timer = new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
+            _timer = new DispatcherTimer();
+            _timer.Interval = new TimeSpan(0, 0, _intervalInSeconds);
+            _timer.Start();
         }
 
         public async void Refresh()
@@ -46,15 +48,11 @@ namespace IoT_Mirror
             try
             {
                 var emailString = await _httpManager.GetGmail();
-                var _emails = JsonConvert.DeserializeObject<List<EmailMessageInfo>>(emailString);
+                var _emails = JsonConvert.DeserializeObject<List<Email>>(emailString);
                 if (_emails.SequenceEqual(_cachedEmails))
                     return;
                 _cachedEmails = _emails;
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () =>
-                    {
-                        listView.ItemsSource = _emails;
-                    });
+                listView.ItemsSource = _emails;
             }
             catch (Exception)
             {
@@ -62,10 +60,9 @@ namespace IoT_Mirror
             }
         }
 
-        private void Callback(Object state)
+        private void Callback(object sender, object e)
         {
             Refresh();
-            _timer.Change(_intervalInSeconds * 1000, Timeout.Infinite);
         }
     }
 }
