@@ -9,10 +9,13 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="2">
+    <StackPanel x:Name="myGrid" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="Blue" BorderThickness="0">
+        <Border BorderBrush="Aqua" BorderThickness="0,0,0,4" >
+            <TextBlock Text="Emails" FontSize="20dp" Foreground="Aqua" ></TextBlock>
+        </Border>
         <ListView x:Name="listView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ListView.Background>
-                <ImageBrush ImageSource="/Assets/gmail.png" AlignmentY="Top" AlignmentX="Center" Stretch="Uniform" Opacity="0.2"></ImageBrush>
+                <ImageBrush ImageSource="/Assets/gmail.png" AlignmentY="Top" AlignmentX="Center" Stretch="Uniform" Opacity="0.1"></ImageBrush>
             </ListView.Background>
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -20,5 +23,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </Grid>
+    </StackPanel>
 </UserControl>

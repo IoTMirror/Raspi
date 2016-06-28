@@ -19,14 +19,21 @@ namespace IoT_Mirror
             _httpClient = new HttpClient();
         }
 
-        public async Task<string> PushPhoto(string sessionId, InMemoryRandomAccessStream image)
+        public async Task<bool> PushPhoto(string sessionId, InMemoryRandomAccessStream image)
         {
-            var api = new Uri("https://facerecog.azurewebsites.net/public/Recognizer/" + sessionId, UriKind.Absolute);
-            var form = new HttpMultipartFormDataContent();
-            form.Add(new HttpStreamContent(image.GetInputStreamAt(0)), "face", "face.jpg");
-            var response = await _httpClient.PutAsync(api, form);
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStringAsync();
+            try
+            {
+                var api = new Uri("https://facerecog.azurewebsites.net/public/Recognizer/" + sessionId, UriKind.Absolute);
+                var form = new HttpMultipartFormDataContent();
+                form.Add(new HttpStreamContent(image.GetInputStreamAt(0)), "face", "face.jpg");
+                var response = await _httpClient.PutAsync(api, form);
+                response.EnsureSuccessStatusCode();
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private async Task<string> SimplePost(string endpoint, string jsonData)
@@ -54,7 +61,7 @@ namespace IoT_Mirror
                 var result = await _httpClient.GetStringAsync(new Uri(_serviceUrl, api));
                 return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debug.WriteLine("Failed GET: " + endpoint);
             }
@@ -76,7 +83,8 @@ namespace IoT_Mirror
             var jsonString = JObject.FromObject(new
             {
                 LoginToken = loginToken,
-                RecognitionToken = loginToken
+                RecognitionToken = loginToken,
+                ForceLogin = true
             }).ToString();
 
             return await SimplePost("/login/confirm", jsonString);

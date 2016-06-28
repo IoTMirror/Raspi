@@ -43,8 +43,8 @@ namespace IoT_Mirror
 
             if (args.Result.Constraint.Tag == "login")
                 Login_Start();
-            else if (args.Result.Constraint.Tag == "logout")
-                Logout_Start();
+            //else if (args.Result.Constraint.Tag == "logout")
+            //    Logout_Start();
         }
     }
 }

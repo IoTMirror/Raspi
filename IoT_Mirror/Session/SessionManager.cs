@@ -46,19 +46,24 @@ namespace IoT_Mirror
             var startResponse = await _httpManager.StartSession();
             var loginToken = JsonConvert.DeserializeAnonymousType(startResponse, new { RecognitionToken = "" }).RecognitionToken;
 
-            var photo = await _cameraManager.TakePicture();
-            //var photoBytes = await _cameraManager.ConvertToByteArray(photo);
-            var pushResponse = await _httpManager.PushPhoto(loginToken, photo);
-            var isOk = JsonConvert.DeserializeAnonymousType(pushResponse, new { recognizedUser = 999 }).recognizedUser;  
-            if(isOk == -1)
-            {
-                Debug.WriteLine("HERE NOOOOOO");
-            }
-            else
-            {
-                Debug.WriteLine("HERE YEEEEES");
-            }
+            //var photo = await _cameraManager.TakePicture();
+            //var pushResponse = await _httpManager.PushPhoto(loginToken, photo);
+
             var sessionString = await _httpManager.ConfirmAuthentication(loginToken);
+
+            JToken token;
+            if(JObject.Parse(sessionString).TryGetValue("error", out token))
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    _session = null;
+                    _progressRing.IsActive = false;
+                    _sayHello.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                });
+                return;
+            }
+
             _session = JsonConvert.DeserializeObject<Session>(sessionString);
             Credentials.Token = JsonConvert.DeserializeAnonymousType(sessionString, new { Token = "" }).Token;
             Create_Widgets_After_Login(_session.Widgets);

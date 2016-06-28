@@ -8,8 +8,11 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="400" Height="720">
+        <Grid x:Name="grid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1280" Height="960">
             <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
@@ -26,11 +29,22 @@
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="80"/>
                 <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="80"/>
             </Grid.ColumnDefinitions>
         </Grid>
         <ProgressRing x:Name="progressRing" IsActive="False"/>
         <TextBlock x:Name="sayHello" FontSize="40p" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Say HELLO!"></TextBlock>
-        <Button x:Name="buttonTmp" Content="Tmp" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Click="buttonTmp_Click"/>
+        <Button x:Name="buttonTmp" Content="" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Click="buttonTmp_Click"/>
         <!--<local:ScrolledTextBlock></local:ScrolledTextBlock>-->
     </Grid>
 </Page>

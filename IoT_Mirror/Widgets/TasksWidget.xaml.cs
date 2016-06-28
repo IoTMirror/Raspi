@@ -27,10 +27,11 @@ namespace IoT_Mirror
         private HttpManager _httpManager = null;
         private DispatcherTimer _timer = null;
         private int _intervalInSeconds = 60;
+        private List<Task> _cached = new List<Task>();
 
         public TasksWidget()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public void Init(HttpManager httpManager)
@@ -39,20 +40,21 @@ namespace IoT_Mirror
             Refresh();
             _timer = new DispatcherTimer();
             _timer.Interval = new TimeSpan(0, 0, _intervalInSeconds);
-            _timer.Tick += Callback;
             _timer.Start();
-                //new Timer(Callback, null, _intervalInSeconds * 1000, Timeout.Infinite);
         }
 
         public async void Refresh()
         {
-            //{"timed": [], "rest": [{"tasklist_info": {"title": "Dawid Chr\u00f3\u015bcielski's list"}, "title": "Testowe zadanie"}, {"tasklist_info": {"title": "Dawid Chr\u00f3\u015bcielski's list"}, "title": "Sko\u0144czy\u0107 projekt"}]}
             try
             {
                 var tasksString = await _httpManager.GetTasks();
                 Debug.WriteLine(tasksString);
+                tasksString = JsonConvert.DeserializeAnonymousType(tasksString, new { error = "" }).error;
                 var _tasks = JsonConvert.DeserializeObject<Tasks>(tasksString);
-                listView.ItemsSource = _tasks.rest;
+                if (_tasks.rest.SequenceEqual(_cached))
+                    return;
+                _cached =  _tasks.rest.ToList();
+                listView.ItemsSource = _cached;
             }
             catch (Exception)
             {
