@@ -46,8 +46,8 @@ namespace IoT_Mirror
             var startResponse = await _httpManager.StartSession();
             var loginToken = JsonConvert.DeserializeAnonymousType(startResponse, new { RecognitionToken = "" }).RecognitionToken;
 
-            //var photo = await _cameraManager.TakePicture();
-            //var pushResponse = await _httpManager.PushPhoto(loginToken, photo);
+            var photo = await _cameraManager.TakePicture();
+            var pushResponse = await _httpManager.PushPhoto(loginToken, photo);
 
             var sessionString = await _httpManager.ConfirmAuthentication(loginToken);
 
